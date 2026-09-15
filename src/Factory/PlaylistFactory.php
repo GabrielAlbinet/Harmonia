@@ -39,10 +39,11 @@ final class PlaylistFactory extends PersistentObjectFactory
     {
         return [
             'createdAt' => \DateTimeImmutable::createFromMutable(self::faker()->dateTime()),
-            'description' => self::faker()->text(),
-            'isPublic' => self::faker()->boolean(),
-            'label' => self::faker()->text(255),
-            'user' => UserFactory::new(),
+            'description' => self::faker()->boolean(70) ? self::faker()->text() : null,
+            'isPublic' => self::faker()->boolean(70),
+            'label' => self::faker()->words(2, true),
+            'user' => UserFactory::random(),
+            'tracks' => TrackFactory::randomRange(3, 20),
         ];
     }
 

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Harmonia{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {% for album in albums %}
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100">
+                        <img src="{{ asset(album.cover) }}" class="card-img-top" alt="{{ album.label }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ album.label }}</h5>
+                            <p class="card-text">{{ album.artist.label }}</p>
+                            <p class="card-text"><small class="text-muted">{{ album.createdAt|date('d/m/Y') }}</small></p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

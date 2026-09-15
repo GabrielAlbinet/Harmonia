@@ -37,10 +37,11 @@ final class ListeningHistoryFactory extends PersistentObjectFactory
     #[\Override]
     protected function defaults(): array|callable
     {
+        $track = TrackFactory::random();
         return [
-            'listenedAt' => \DateTimeImmutable::createFromMutable(self::faker()->dateTime()),
-            'track' => TrackFactory::new(),
-            'user' => UserFactory::new(),
+            'listenedAt' => \DateTimeImmutable::createFromMutable(self::faker()->dateTimeBetween(\DateTime::createFromImmutable($track->getAlbum()->getCreatedAt()),'now')),            
+            'track' => $track,
+            'user' => UserFactory::random(),
         ];
     }
 

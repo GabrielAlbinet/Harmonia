@@ -38,12 +38,13 @@ final class TrackFactory extends PersistentObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'album' => AlbumFactory::new(),
-            'duration' => self::faker()->randomNumber(),
-            'explicit' => self::faker()->boolean(),
-            'label' => self::faker()->text(255),
-            'playCount' => self::faker()->randomNumber(),
-            'trackNumber' => self::faker()->randomNumber(),
+            'album' => AlbumFactory::random(),
+            'genres' => GenreFactory::randomRange(1, 3),
+            'duration' => self::faker()->numberBetween(120, 360),
+            'explicit' => self::faker()->boolean(15),
+            'label' => self::faker()->sentence(2),
+            'playCount' => self::faker()->numberBetween(0, 500000),
+            'trackNumber' => self::faker()->numberBetween(1, 15),
         ];
     }
 

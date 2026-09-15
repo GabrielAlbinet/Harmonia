@@ -39,8 +39,8 @@ final class FavoriteFactory extends PersistentObjectFactory
     {
         return [
             'addedAt' => \DateTimeImmutable::createFromMutable(self::faker()->dateTime()),
-            'track' => TrackFactory::new(),
-            'user' => UserFactory::new(),
+            'track' => TrackFactory::random(),
+            'user' => UserFactory::random(),
         ];
     }
 
