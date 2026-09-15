@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ArtistRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -17,11 +19,22 @@ class Artist
     #[ORM\Column(length: 255)]
     private ?string $label = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $biography = null;
 
     #[ORM\Column(length: 255)]
     private ?string $country = null;
+
+    /**
+     * @var Collection<int, Album>
+     */
+    #[ORM\OneToMany(targetEntity: Album::class, mappedBy: 'artist')]
+    private Collection $albums;
+
+    public function __construct()
+    {
+        $this->albums = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -45,7 +58,7 @@ class Artist
         return $this->biography;
     }
 
-    public function setBiography(string $biography): static
+    public function setBiography(?string $biography): static
     {
         $this->biography = $biography;
 
@@ -60,6 +73,36 @@ class Artist
     public function setCountry(string $country): static
     {
         $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Album>
+     */
+    public function getAlbums(): Collection
+    {
+        return $this->albums;
+    }
+
+    public function addAlbum(Album $album): static
+    {
+        if (!$this->albums->contains($album)) {
+            $this->albums->add($album);
+            $album->setArtist($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAlbum(Album $album): static
+    {
+        if ($this->albums->removeElement($album)) {
+            // set the owning side to null (unless already changed)
+            if ($album->getArtist() === $this) {
+                $album->setArtist(null);
+            }
+        }
 
         return $this;
     }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -36,6 +38,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
+
+    /**
+     * @var Collection<int, Playlist>
+     */
+    #[ORM\OneToMany(targetEntity: Playlist::class, mappedBy: 'user')]
+    private Collection $playlists;
+
+    /**
+     * @var Collection<int, Favorite>
+     */
+    #[ORM\OneToMany(targetEntity: Favorite::class, mappedBy: 'user')]
+    private Collection $favorites;
+
+    /**
+     * @var Collection<int, ListeningHistory>
+     */
+    #[ORM\OneToMany(targetEntity: ListeningHistory::class, mappedBy: 'user')]
+    private Collection $listeningHistories;
+
+    public function __construct()
+    {
+        $this->playlists = new ArrayCollection();
+        $this->favorites = new ArrayCollection();
+        $this->listeningHistories = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -132,6 +159,96 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Playlist>
+     */
+    public function getPlaylists(): Collection
+    {
+        return $this->playlists;
+    }
+
+    public function addPlaylist(Playlist $playlist): static
+    {
+        if (!$this->playlists->contains($playlist)) {
+            $this->playlists->add($playlist);
+            $playlist->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlaylist(Playlist $playlist): static
+    {
+        if ($this->playlists->removeElement($playlist)) {
+            // set the owning side to null (unless already changed)
+            if ($playlist->getUser() === $this) {
+                $playlist->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Favorite>
+     */
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
+    }
+
+    public function addFavorite(Favorite $favorite): static
+    {
+        if (!$this->favorites->contains($favorite)) {
+            $this->favorites->add($favorite);
+            $favorite->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavorite(Favorite $favorite): static
+    {
+        if ($this->favorites->removeElement($favorite)) {
+            // set the owning side to null (unless already changed)
+            if ($favorite->getUser() === $this) {
+                $favorite->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ListeningHistory>
+     */
+    public function getListeningHistories(): Collection
+    {
+        return $this->listeningHistories;
+    }
+
+    public function addListeningHistory(ListeningHistory $listeningHistory): static
+    {
+        if (!$this->listeningHistories->contains($listeningHistory)) {
+            $this->listeningHistories->add($listeningHistory);
+            $listeningHistory->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeListeningHistory(ListeningHistory $listeningHistory): static
+    {
+        if ($this->listeningHistories->removeElement($listeningHistory)) {
+            // set the owning side to null (unless already changed)
+            if ($listeningHistory->getUser() === $this) {
+                $listeningHistory->setUser(null);
+            }
+        }
 
         return $this;
     }

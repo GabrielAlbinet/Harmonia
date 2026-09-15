@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Entity\Enum\AlbumType;
-use App\Repository\AlbumRepository;
+use App\Repository\PlaylistRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: AlbumRepository::class)]
-class Album
+#[ORM\Entity(repositoryClass: PlaylistRepository::class)]
+class Playlist
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -19,23 +19,23 @@ class Album
     #[ORM\Column(length: 255)]
     private ?string $label = null;
 
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $description = null;
+
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $cover = null;
+    #[ORM\Column]
+    private ?bool $isPublic = null;
 
-    #[ORM\Column(enumType: AlbumType::class)]
-    private ?AlbumType $type = null;
-
-    #[ORM\ManyToOne(inversedBy: 'albums')]
+    #[ORM\ManyToOne(inversedBy: 'playlists')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Artist $artist = null;
+    private ?User $user = null;
 
     /**
      * @var Collection<int, Track>
      */
-    #[ORM\OneToMany(targetEntity: Track::class, mappedBy: 'album')]
+    #[ORM\ManyToMany(targetEntity: Track::class, inversedBy: 'playlists')]
     private Collection $tracks;
 
     public function __construct()
@@ -60,6 +60,18 @@ class Album
         return $this;
     }
 
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
@@ -72,38 +84,26 @@ class Album
         return $this;
     }
 
-    public function getCover(): ?string
+    public function isPublic(): ?bool
     {
-        return $this->cover;
+        return $this->isPublic;
     }
 
-    public function setCover(string $cover): static
+    public function setIsPublic(bool $isPublic): static
     {
-        $this->cover = $cover;
+        $this->isPublic = $isPublic;
 
         return $this;
     }
 
-    public function getType(): ?AlbumType
+    public function getUser(): ?User
     {
-        return $this->type;
+        return $this->user;
     }
 
-    public function setType(AlbumType $type): static
+    public function setUser(User $user): static
     {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    public function getArtist(): ?Artist
-    {
-        return $this->artist;
-    }
-
-    public function setArtist(?Artist $artist): static
-    {
-        $this->artist = $artist;
+        $this->user = $user;
 
         return $this;
     }
@@ -120,7 +120,6 @@ class Album
     {
         if (!$this->tracks->contains($track)) {
             $this->tracks->add($track);
-            $track->setAlbum($this);
         }
 
         return $this;
@@ -128,12 +127,7 @@ class Album
 
     public function removeTrack(Track $track): static
     {
-        if ($this->tracks->removeElement($track)) {
-            // set the owning side to null (unless already changed)
-            if ($track->getAlbum() === $this) {
-                $track->setAlbum(null);
-            }
-        }
+        $this->tracks->removeElement($track);
 
         return $this;
     }
