@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ album.label }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="{{ asset(album.cover) }}">
+            </div>
+            <div class="col-md-8">
+                <h1>{{ album.label }}</h1>
+                <p>Artiste : {{ album.artist.label }}</p>
+                <p>Type : {{ album.type.value }}</p>
+                <p>Date de sortie : {{ album.createdAt|date('d/m/Y') }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

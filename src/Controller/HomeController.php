@@ -6,16 +6,21 @@ use App\Repository\AlbumRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Entity\Enum\AlbumType;
 
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
     public function index(AlbumRepository $albumRepository): Response
     {
-        $albums = $albumRepository->findAll();
+        $album = $albumRepository->findBy(['type' => AlbumType::ALBUM]);
+        $single = $albumRepository->findBy(['type' => AlbumType::SINGLE]);
+        $EP = $albumRepository->findBy(['type' => AlbumType::EP]);
 
         return $this->render('home/index.html.twig', [
-            'albums' => $albums,
+            'album' => $album,
+            'single' => $single,
+            'EP' => $EP,
         ]);
     }
 }
