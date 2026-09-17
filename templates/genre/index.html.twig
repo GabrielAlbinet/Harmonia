@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Genre : {{ genre.label }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <a href="{{ path('app_genre_add') }}" class="btn btn-primary mb-3">Ajouter un genre</a>
+        <h1>Genre : {{ genre.label }}</h1>
+        <ul class="list-group">
+            {% for track in genre.tracks %}
+                <li class="list-group-item">
+                    {{ track.label }} — {{ track.album.label }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

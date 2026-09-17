@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une musique{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Ajouter une musique à {{ album.label }}</h1>
+
+        {{ form_start(form) }}
+            {{ form_row(form.label) }}
+            {{ form_row(form.duration) }}
+            {{ form_row(form.trackNumber) }}
+            {{ form_row(form.explicit) }}
+            {{ form_row(form.genres) }}
+            <button type="submit" class="btn btn-primary">Valider</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

@@ -16,6 +16,23 @@ class AlbumRepository extends ServiceEntityRepository
         parent::__construct($registry, Album::class);
     }
 
+    public function getAlbumsPost2020s(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.createdAt > :date')
+            ->setParameter('date', new \DateTime('2020-01-01'))
+            ->getQuery()->getResult();
+    }
+
+    public function getAlbumsPre2020s(): array
+    {
+        return $this->createQueryBuilder('a')
+                ->where('a.createdAt < :date')
+                ->setParameter('date', new \DateTime('2020-01-01'))
+                ->getQuery()
+                ->getResult();
+    }
+
 //    /**
 //     * @return Album[] Returns an array of Album objects
 //     */

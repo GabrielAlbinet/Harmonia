@@ -24,6 +24,44 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('app_home') }}">Accueil</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_home') }}">Albums</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_track') }}">Musiques</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_artist_list') }}">Artistes</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Genres
+                            </a>
+                            <ul class="dropdown-menu">
+                                {% for genre in genres %}
+                                    <li>
+                                        <a class="dropdown-item" href="{{ path('app_genre', {'id': genre.id}) }}">{{ genre.label }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_profil') }}">PROFIL</a>
+                        </li>
+                        <li class="nav-item">
+                        {% if app.user %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_register') }}">S'inscrire</a>
+                            </li>
+                        {% endif %}
+                        </li>
                     </ul>
                 </div>
             </div>

@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon profil{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Mon profil</h1>
+        <p>Pseudo : {{ user.pseudo }}</p>
+        <p>Email : {{ user.email }}</p>
+        <p>Inscrit depuis le : {{ user.createdAt|date('d/m/Y') }}</p>
+        <p>Nombre de playlists : {{ user.playlists|length }}</p>
+        <p>Nombre de musiques en favoris : {{ user.favorites|length }}</p>
+        <p>Nombre de musiques écoutées : {{ user.listeningHistories|length }}</p>
+
+        <h2>Mes playlists</h2>
+        <a href="{{ path('app_playlist_add') }}" class="btn btn-primary mb-3">Créer une playlist</a>
+        <div class="row">
+            {% for playlist in user.playlists %}
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ playlist.label }}</h5>
+                            <p class="card-text">{{ playlist.tracks|length }} morceau(x)</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <h2>Musiques favorites</h2>
+        <div class="row">
+            {% for favorite in user.favorites %}
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100">
+                        <img src="{{ asset(favorite.track.album.cover) }}" class="card-img-top" alt="{{ favorite.track.album.label }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ favorite.track.label }}</h5>
+                            <p class="card-text"> Album : {{ favorite.track.album.label }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

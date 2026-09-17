@@ -1,58 +1,45 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Harmonia{% endblock %}
+{% block title %}Harmonia - Liste d'albums{% endblock %}
 
 {% block body %}
     <div class="container">
+        <a href="{{ path('app_album_create') }}" class="btn btn-primary mb-3">Ajouter un album</a>
+        <a href="{{ path('app_artist_add') }}" class="btn btn-secondary mb-3">Ajouter un artiste</a>
         <h2>Albums</h2>
         <div class="row">
             {% for alb in album %}
-                <div class="col-md-3 mb-4">
-                    <a href="{{ path('app_album_item', {'id': alb.id}) }}" class="text-decoration-none text-dark">
-                        <div class="card h-100">
-                            <img src="{{ asset(alb.cover) }}" class="card-img-top">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ alb.label }}</h5>
-                                <p class="card-text">{{ alb.artist.label }}</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                {% include 'component/album-card.html.twig' with {'album': alb} %}
             {% endfor %}
         </div>
 
         <h2>EP</h2>
         <div class="row">
             {% for alb in EP %}
-                <div class="col-md-3 mb-4">
-                    <a href="{{ path('app_album_item', {'id': alb.id}) }}" class="text-decoration-none text-dark">
-                        <div class="card h-100">
-                            <img src="{{ asset(alb.cover) }}" class="card-img-top">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ alb.label }}</h5>
-                                <p class="card-text">{{ alb.artist.label }}</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                {% include 'component/album-card.html.twig' with {'album': alb} %}
             {% endfor %}
         </div>
 
         <h2>Singles</h2>
         <div class="row">
             {% for alb in single %}
-                <div class="col-md-3 mb-4">
-                    <a href="{{ path('app_album_item', {'id': alb.id}) }}" class="text-decoration-none text-dark">
-                        <div class="card h-100">
-                            <img src="{{ asset(alb.cover) }}" class="card-img-top">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ alb.label }}</h5>
-                                <p class="card-text">{{ alb.artist.label }}</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                {% include 'component/album-card.html.twig' with {'album': alb} %}
+            {% endfor %}
+        </div>
+
+        <h2>Les Albums sortis après 2020</h2>
+        <div class="row">
+            {% for alb in albumsPost2020s %}
+                {% include 'component/album-card.html.twig' with {'album': alb} %}
+            {% endfor %}
+        </div>
+
+        <h2>Les albums sortis avant 2020</h2>
+        <div class="row">
+            {% for alb in albumsPre2020s %}
+                {% include 'component/album-card.html.twig' with {'album': alb} %}
             {% endfor %}
         </div>
     </div>
 {% endblock %}
+ 

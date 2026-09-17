@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Harmonia - Liste de musiques{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Liste de musiques</h1>
+    <ul class="list-group">
+        {% for track in tracks %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>{{ track.label }} — {{ track.album.label }}</span>
+
+                {% if app.user %}
+                    {% if track.id in favoritedTrackIds %}
+                        <span class="badge bg-success">Ajouté aux favoris</span>
+                    {% else %}
+                        <a href="{{ path('app_favorite_add', {'id': track.id}) }}" class="btn btn-sm btn-outline-primary">Ajouter aux favoris</a>
+                    {% endif %}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

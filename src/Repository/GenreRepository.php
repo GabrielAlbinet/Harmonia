@@ -15,6 +15,11 @@ class GenreRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Genre::class);
     }
+    
+    public function getAllGenres(): array
+    {
+        return $this->findAll();
+    }
 
 //    /**
 //     * @return Genre[] Returns an array of Genre objects

@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une playlist{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Créer une playlist</h1>
+
+        {{ form_start(form) }}
+            {{ form_row(form.label) }}
+            {{ form_row(form.description) }}
+            {{ form_row(form.isPublic) }}
+            {{ form_row(form.tracks) }}
+            <button type="submit" class="btn btn-primary">Valider</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

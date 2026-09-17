@@ -116,6 +116,17 @@ class Album
         return $this->tracks;
     }
 
+    public function getTotalDuration(): int
+    {
+        $total = 0;
+        foreach ($this->tracks as $track) {
+            $total += $track->getDuration();
+        }
+        $totalMinutes = $total / 60;
+
+        return $totalMinutes;
+    }
+
     public function addTrack(Track $track): static
     {
         if (!$this->tracks->contains($track)) {

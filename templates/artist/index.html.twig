@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des artistes{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <a href="{{ path('app_artist_add') }}" class="btn btn-primary mb-3">Ajouter un artiste</a>
+        <h1>Liste des artistes</h1>
+        <ul class="list-group">
+            {% for artist in artists %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>{{ artist.label }} — {{ artist.country }}</span>
+                    <a href="{{ path('app_artist_edit', {'id': artist.id}) }}" class="btn btn-sm btn-outline-secondary">Modifier</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
