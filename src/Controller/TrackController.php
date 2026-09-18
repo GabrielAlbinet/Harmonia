@@ -6,9 +6,11 @@ use App\Repository\FavoriteRepository;
 use App\Repository\GenreRepository;
 use App\Repository\TrackRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Album;
+use App\Entity\ListeningHistory;
 use App\Entity\Track;
 use App\Form\TrackType;
 use App\Form\DeleteTrackType;
@@ -34,6 +36,34 @@ final class TrackController extends AbstractController
             'tracks' => $trackRepository->findAll(),
             'genres' => $genreRepository->getAllGenres(),
             'favoritedTrackIds' => $favoritedTrackIds,
+        ]);
+    }
+
+    #[Route('/track/{id}/play', name: 'app_track_play', methods: ['POST'])]
+    public function play(Track $track, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $track->setPlayCount($track->getPlayCount() + 1);
+
+        $lastListenedAt = null;
+        $user = $this->getUser();
+
+        if ($user !== null) {
+            $listenedAt = new \DateTimeImmutable();
+
+            $history = new ListeningHistory();
+            $history->setUser($user);
+            $history->setTrack($track);
+            $history->setListenedAt($listenedAt);
+            $entityManager->persist($history);
+
+            $lastListenedAt = $listenedAt->format('d/m/Y H:i');
+        }
+
+        $entityManager->flush();
+
+        return $this->json([
+            'playCount' => $track->getPlayCount(),
+            'lastListenedAt' => $lastListenedAt,
         ]);
     }
 

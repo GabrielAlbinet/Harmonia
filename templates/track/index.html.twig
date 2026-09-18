@@ -11,14 +11,18 @@
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <span>{{ track.label }} — {{ track.album.label }}</span>
 
-                {% if app.user %}
-                    <div class="d-flex gap-2">
+                <div class="d-flex gap-2 align-items-center">
+                    <button type="button" class="btn btn-sm btn-outline-secondary js-play-btn" data-id="{{ track.id }}">▶</button>
+                    <span class="badge bg-secondary js-play-count">{{ track.playCount }}</span>
+                    <small class="text-muted js-last-listened"></small>
+
+                    {% if app.user %}
                         <a href="{{ path('app_track_edit', {'id': track.id}) }}" class="btn btn-sm btn-outline-primary">Modifier</a>
                         <button type="button" class="btn btn-sm js-favorite-btn {{ track.id in favoritedTrackIds ? 'btn-danger' : 'btn-success' }}" data-id="{{ track.id }}">
                             {{ track.id in favoritedTrackIds ? 'Retirer des favoris' : 'Ajouter aux favoris' }}
                         </button>
-                    </div>
-                {% endif %}
+                    {% endif %}
+                </div>
             </li>
         {% endfor %}
     </ul>
