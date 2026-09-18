@@ -13,7 +13,8 @@
         <p>Nombre de musiques écoutées : {{ user.listeningHistories|length }}</p>
 
         <h2>Mes playlists</h2>
-        <a href="{{ path('app_playlist_add') }}" class="btn btn-primary mb-3">Créer une playlist</a>
+        <a href="{{ path('app_playlist_add') }}" class="btn btn-success mb-3">Ajouter une playlist</a>
+        <a href="{{ path('app_playlist_delete') }}" class="btn btn-danger mb-3">Supprimer une playlist</a>
         <div class="row">
             {% for playlist in user.playlists %}
                 <div class="col-md-3 mb-4">
@@ -21,6 +22,7 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ playlist.label }}</h5>
                             <p class="card-text">{{ playlist.tracks|length }} morceau(x)</p>
+                            <a href="{{ path('app_playlist_edit', {'id': playlist.id}) }}" class="btn btn-sm btn-outline-primary">Modifier</a>
                         </div>
                     </div>
                 </div>

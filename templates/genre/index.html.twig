@@ -4,7 +4,11 @@
 
 {% block body %}
     <div class="container">
-        <a href="{{ path('app_genre_add') }}" class="btn btn-primary mb-3">Ajouter un genre</a>
+        <div class="d-flex gap-2 mb-3">
+        <a href="{{ path('app_genre_add') }}" class="btn btn-success mb-3">Ajouter un genre</a>
+        <a href="{{ path('app_genre_edit', {'id': genre.id}) }}" class="btn btn-primary mb-3">Modifier ce genre</a>
+        <a href="{{ path('app_genre_delete') }}" class="btn btn-danger mb-3">Supprimer un genre</a>
+        </div>
         <h1>Genre : {{ genre.label }}</h1>
         <ul class="list-group">
             {% for track in genre.tracks %}

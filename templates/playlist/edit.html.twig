@@ -1,16 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ajouter un album{% endblock %}
+{% block title %}Modifier la playlist{% endblock %}
 
 {% block body %}
     <div class="container">
-        <h1>Ajouter un album</h1>
+        <h1>Modifier la playlist</h1>
 
         {{ form_start(form) }}
             {{ form_row(form.label) }}
-            {{ form_row(form.artist) }}
-            {{ form_row(form.type) }}
-            {{ form_row(form.coverFile) }}
+            {{ form_row(form.description) }}
+            {{ form_row(form.isPublic) }}
+            {{ form_row(form.tracks) }}
             <button type="submit" class="btn btn-primary">Valider</button>
         {{ form_end(form) }}
     </div>

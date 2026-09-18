@@ -28,7 +28,7 @@ class Artist
     /**
      * @var Collection<int, Album>
      */
-    #[ORM\OneToMany(targetEntity: Album::class, mappedBy: 'artist')]
+    #[ORM\OneToMany(targetEntity: Album::class, mappedBy: 'artist', cascade: ['remove'])]
     private Collection $albums;
 
     public function __construct()

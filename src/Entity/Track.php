@@ -49,13 +49,14 @@ class Track
     /**
      * @var Collection<int, Favorite>
      */
-    #[ORM\OneToMany(targetEntity: Favorite::class, mappedBy: 'track')]
+    #[ORM\OneToMany(targetEntity: Favorite::class, mappedBy: 'track', cascade: ['remove'])]
     private Collection $favoritedBy;
+
 
     /**
      * @var Collection<int, ListeningHistory>
      */
-    #[ORM\OneToMany(targetEntity: ListeningHistory::class, mappedBy: 'track')]
+    #[ORM\OneToMany(targetEntity: ListeningHistory::class, mappedBy: 'track', cascade: ['remove'])]
     private Collection $listeningHistories;
 
     public function __construct()

@@ -7,18 +7,34 @@ use App\Entity\Artist;
 use App\Entity\Enum\AlbumType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class AlbumsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $constraints = [
+            new File(
+                maxSize: '2M',
+                mimeTypes: ['image/jpeg', 'image/png', 'image/webp'],
+                mimeTypesMessage: 'Merci de mettre une image valide (JPEG ou PNG)',
+            )
+        ];
+
+        if ($options['isCreation']) {
+            $constraints[] = new NotBlank(
+                message: 'Il faut une pochette pour créer un album.',
+            );
+        }
+
         $builder
             ->add('label', null, [
-                'label' => 'Titre de l\'album',
+                'label' => 'Titre album',
             ])
             ->add('artist', EntityType::class, [
                 'class' => Artist::class,
@@ -27,22 +43,13 @@ class AlbumsType extends AbstractType
             ])
             ->add('type', EnumType::class, [
                 'class' => AlbumType::class,
-                'label' => 'Type d\'album',
+                'label' => 'Type album',
             ])
-            ->add('cover', ChoiceType::class, [
+            ->add('coverFile', FileType::class, [
                 'label' => 'Pochette',
-                'choices' => [
-                    'Image 1' => 'uploads/1.jpeg',
-                    'Image 2' => 'uploads/2.jpeg',
-                    'Image 3' => 'uploads/3.jpeg',
-                    'Image 4' => 'uploads/4.jpeg',
-                    'Image 5' => 'uploads/5.jpeg',
-                    'Image 6' => 'uploads/6.jpeg',
-                    'Image 7' => 'uploads/7.jpeg',
-                    'Image 8' => 'uploads/8.jpeg',
-                    'Image 9' => 'uploads/9.jpeg',
-                    'Image 10' => 'uploads/10.jpeg',
-                ],
+                'mapped' => false,
+                'required' => $options['isCreation'],
+                'constraints' => $constraints,
             ])
         ;
     }
@@ -51,6 +58,7 @@ class AlbumsType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Album::class,
+            'isCreation' => true,
         ]);
     }
 }

@@ -14,7 +14,8 @@
                 <p>Type : {{ album.type.value }}</p>
                 <p>Date de sortie : {{ album.createdAt|date('d/m/Y') }}</p>
                 <p class="card-text"><small class="text-muted">{{ album.tracks|length }} morceau(x) — {{ album.getTotalDuration() }} minutes</small></p>
-                <a href="{{ path('app_track_add', {'id': album.id}) }}" class="btn btn-primary mt-3">Ajouter une musique</a>
+                <a href="{{ path('app_track_add', {'id': album.id}) }}" class="btn btn-success mt-3">Ajouter une musique</a>
+                <a href="{{ path('app_album_edit', {'id': album.id}) }}" class="btn btn-primary mt-3">Modifier l'album</a>
             </div>
         </div>
     </div>

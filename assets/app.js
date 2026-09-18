@@ -8,3 +8,16 @@ import './stimulus_bootstrap.js';
 import './styles/app.css';
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.js-favorite-btn').forEach((button) => {
+        button.addEventListener('click', async () => {
+            const response = await fetch(`/favorite/toggle/${button.dataset.id}`, { method: 'POST' });
+            const { favorited } = await response.json();
+
+            button.textContent = favorited ? 'Retirer des favoris' : 'Ajouter aux favoris';
+            button.classList.toggle('btn-danger', favorited);
+            button.classList.toggle('btn-success', !favorited);
+        });
+    });
+});

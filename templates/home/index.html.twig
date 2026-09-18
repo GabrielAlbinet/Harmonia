@@ -4,8 +4,11 @@
 
 {% block body %}
     <div class="container">
-        <a href="{{ path('app_album_create') }}" class="btn btn-primary mb-3">Ajouter un album</a>
-        <a href="{{ path('app_artist_add') }}" class="btn btn-secondary mb-3">Ajouter un artiste</a>
+        <div class="d-flex gap-2 mb-3">
+            <a href="{{ path('app_album_create') }}" class="btn btn-success">Ajouter un album</a>
+            <a href="{{ path('app_album_delete') }}" class="btn btn-danger">Supprimer un album</a>
+            <a href="{{ path('app_artist_add') }}" class="btn btn-primary">Ajouter un artiste</a>
+        </div>
         <h2>Albums</h2>
         <div class="row">
             {% for alb in album %}

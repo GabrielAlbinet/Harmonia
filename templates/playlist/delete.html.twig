@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Supprimer une playlist{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Supprimer une playlist</h1>
+
+        {{ form_start(form) }}
+            {{ form_row(form.playlist) }}
+            <button type="submit" class="btn btn-danger">Supprimer</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

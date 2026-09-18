@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Supprimer un genre{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Supprimer un genre</h1>
+        {{ form_start(form) }}
+            {{ form_row(form.genre) }}
+            <button type="submit" class="btn btn-danger">Supprimer</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

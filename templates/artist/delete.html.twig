@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Supprimer un artiste{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Supprimer un artiste</h1>
+        <p class="text-danger">Attention : supprimer un artiste supprime aussi tous ses albums et morceaux.</p>
+        {{ form_start(form) }}
+            {{ form_row(form.artist) }}
+            <button type="submit" class="btn btn-danger">Supprimer</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

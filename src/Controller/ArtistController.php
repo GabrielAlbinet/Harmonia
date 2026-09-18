@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Artist;
 use App\Form\ArtistType;
+use App\Form\DeleteArtistType;
 use App\Repository\ArtistRepository;
 use App\Repository\GenreRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -55,6 +56,28 @@ final class ArtistController extends AbstractController
         }
 
         return $this->render('artist/edit.html.twig', [
+            'form' => $form->createView(),
+            'genres' => $genreRepository->getAllGenres(),
+        ]);
+    }
+
+    #[Route('/artist-delete', name: 'app_artist_delete')]
+    public function delete(EntityManagerInterface $entityManager, Request $request, GenreRepository $genreRepository): Response
+    {
+        $form = $this->createForm(DeleteArtistType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $artist = $form->get('artist')->getData();
+            $entityManager->remove($artist);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Artiste supprimé avec succès (ainsi que ses albums et morceaux).');
+
+            return $this->redirectToRoute('app_artist_list');
+        }
+
+        return $this->render('artist/delete.html.twig', [
             'form' => $form->createView(),
             'genres' => $genreRepository->getAllGenres(),
         ]);
