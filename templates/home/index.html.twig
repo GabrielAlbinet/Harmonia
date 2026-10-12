@@ -9,40 +9,11 @@
             <a href="{{ path('app_album_delete') }}" class="btn btn-danger">Supprimer un album</a>
             <a href="{{ path('app_artist_add') }}" class="btn btn-primary">Ajouter un artiste</a>
         </div>
-        <h2>Albums</h2>
-        <div class="row">
-            {% for alb in album %}
-                {% include 'component/album-card.html.twig' with {'album': alb} %}
-            {% endfor %}
-        </div>
 
-        <h2>EP</h2>
-        <div class="row">
-            {% for alb in EP %}
-                {% include 'component/album-card.html.twig' with {'album': alb} %}
-            {% endfor %}
-        </div>
-
-        <h2>Singles</h2>
-        <div class="row">
-            {% for alb in single %}
-                {% include 'component/album-card.html.twig' with {'album': alb} %}
-            {% endfor %}
-        </div>
-
-        <h2>Les Albums sortis après 2020</h2>
-        <div class="row">
-            {% for alb in albumsPost2020s %}
-                {% include 'component/album-card.html.twig' with {'album': alb} %}
-            {% endfor %}
-        </div>
-
-        <h2>Les albums sortis avant 2020</h2>
-        <div class="row">
-            {% for alb in albumsPre2020s %}
-                {% include 'component/album-card.html.twig' with {'album': alb} %}
-            {% endfor %}
-        </div>
+        {% include 'component/album-section.html.twig' with {'title': 'Albums', 'albums': album} only %}
+        {% include 'component/album-section.html.twig' with {'title': 'EP', 'albums': EP} only %}
+        {% include 'component/album-section.html.twig' with {'title': 'Singles', 'albums': single} only %}
+        {% include 'component/album-section.html.twig' with {'title': 'Les albums sortis après 2020', 'albums': albumsPost2020s} only %}
+        {% include 'component/album-section.html.twig' with {'title': 'Les albums sortis avant 2020', 'albums': albumsPre2020s} only %}
     </div>
 {% endblock %}
- 

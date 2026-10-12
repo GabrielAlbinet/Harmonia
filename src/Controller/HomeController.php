@@ -13,12 +13,11 @@ use App\Entity\Enum\AlbumType;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(AlbumRepository $albumRepository, TrackRepository $trackRepository, GenreRepository $genreRepository): Response
+    public function index(AlbumRepository $albumRepository, GenreRepository $genreRepository): Response
     {
-        $album = $albumRepository->findBy(['type' => AlbumType::ALBUM]);
-        $single = $albumRepository->findBy(['type' => AlbumType::SINGLE]);
-        $EP = $albumRepository->findBy(['type' => AlbumType::EP]);
-        $tracks = $trackRepository->findAll();
+        $album = $albumRepository->findWithRelations(AlbumType::ALBUM);
+        $single = $albumRepository->findWithRelations(AlbumType::SINGLE);
+        $EP = $albumRepository->findWithRelations(AlbumType::EP);
         $albumsPost2020s = $albumRepository->getAlbumsPost2020s();
         $albumsPre2020s = $albumRepository->getAlbumsPre2020s();
         dump($albumsPost2020s);
@@ -33,7 +32,6 @@ class HomeController extends AbstractController
             'EP' => $EP,
             'albumsPost2020s' => $albumsPost2020s,
             'albumsPre2020s' => $albumsPre2020s,
-            'tracks' => $tracks,
             'genres' => $genreRepository->getAllGenres()
         ]);
     }

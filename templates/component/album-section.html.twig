@@ -1,0 +1,6 @@
+<h2>{{ title }}</h2>
+<div class="row">
+    {% for alb in albums %}
+        {% include 'component/album-card.html.twig' with {'alb': alb} only %}
+    {% endfor %}
+</div>

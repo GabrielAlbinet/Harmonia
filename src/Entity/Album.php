@@ -28,7 +28,7 @@ class Album
     #[ORM\Column(enumType: AlbumType::class)]
     private ?AlbumType $type = null;
 
-    #[ORM\ManyToOne(inversedBy: 'albums')]
+    #[ORM\ManyToOne(inversedBy: 'albums', fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Artist $artist = null;
 
