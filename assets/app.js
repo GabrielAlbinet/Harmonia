@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 button.classList.toggle('btn-success', !favorited);
             } catch (error) {
                 console.error('Erreur toggle favori :', error);
+                
             }
         });
     });
