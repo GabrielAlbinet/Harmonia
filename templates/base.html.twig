@@ -39,7 +39,7 @@
                                 Genres
                             </a>
                             <ul class="dropdown-menu">
-                                {% for genre in genres %}
+                                {% for genre in all_genres() %}
                                     <li>
                                         <a class="dropdown-item" href="{{ path('app_genre', {'id': genre.id}) }}">{{ genre.label }}</a>
                                     </li>
